@@ -1,0 +1,7 @@
+{
+  "name": "market-analyzer-rmc",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}

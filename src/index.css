@@ -1,0 +1,108 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --color-neon-cyan: #00F0FF;
+  --color-neon-green: #00FFA3;
+  --color-neon-purple: #B000FF;
+  --color-neon-red: #FF0055;
+  --color-background: #050B14;
+  --color-surface: #0a0f1a;
+  --color-surface-low: #121318;
+  --color-surface-container: #1a1b21;
+  --color-surface-highest: #34343a;
+  --color-surface-lowest: #0d0e13;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Manrope", "Inter", sans-serif;
+  
+  --shadow-neon-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+  --shadow-neon-green: 0 0 20px rgba(0, 255, 163, 0.4);
+  --shadow-neon-purple: 0 0 20px rgba(176, 0, 255, 0.4);
+}
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neon-cyan);
+  }
+
+  ::selection {
+    background: rgba(0, 240, 255, 0.2);
+    color: var(--color-neon-cyan);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface/80 backdrop-blur-3xl border border-white/5 shadow-2xl rounded-2xl;
+  }
+  
+  .glass-surface {
+    @apply bg-surface-container/40 backdrop-blur-2xl border border-white/10 rounded-2xl;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl bg-gradient-to-r from-neon-cyan to-blue-600 font-display font-semibold text-white shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)] transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl bg-surface-lowest border border-white/10 font-sans font-semibold hover:bg-white/5 transition-all duration-300;
+  }
+  
+  .input-ghost {
+    @apply bg-surface-lowest/50 border border-white/5 rounded-xl px-4 py-3 placeholder:text-text-secondary outline-none focus:border-neon-cyan/50 focus:bg-surface-lowest focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all duration-500;
+  }
+  
+  .neon-text-cyan {
+    @apply text-neon-cyan drop-shadow-[0_0_12px_rgba(0,240,255,0.6)];
+  }
+
+  .neon-text-green {
+    @apply text-neon-green drop-shadow-[0_0_12px_rgba(0,255,163,0.6)];
+  }
+
+  .neon-text-purple {
+    @apply text-neon-purple drop-shadow-[0_0_12px_rgba(176,0,255,0.6)];
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neon-cyan);
+  }
+}
