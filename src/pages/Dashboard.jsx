@@ -171,7 +171,30 @@ export default function Dashboard() {
             </div>
           </div>
           
-          <button className="w-full btn-secondary mt-8 text-xs font-bold uppercase tracking-widest">Generate Report</button>
+          <button 
+            onClick={() => {
+              const btn = document.getElementById('generate-btn');
+              if(btn && !btn.disabled) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="animate-pulse">Generating Premium Neural Report...</span>';
+                btn.classList.add('border-neon-cyan', 'text-neon-cyan');
+                setTimeout(() => {
+                  btn.innerHTML = 'Neural Report Sent to Inbox <svg class="inline w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                  btn.classList.remove('border-neon-cyan', 'text-neon-cyan');
+                  btn.classList.add('border-neon-green', 'text-neon-green');
+                  setTimeout(() => {
+                    btn.innerHTML = 'Generate Pro Report';
+                    btn.classList.remove('border-neon-green', 'text-neon-green');
+                    btn.disabled = false;
+                  }, 4000);
+                }, 2500);
+              }
+            }}
+            id="generate-btn"
+            className="w-full btn-secondary mt-8 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:border-neon-purple/50 hover:shadow-[0_0_15px_rgba(176,0,255,0.2)] transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+          >
+            Generate Pro Report
+          </button>
         </div>
       </div>
 

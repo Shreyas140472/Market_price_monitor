@@ -21,9 +21,14 @@ export default function Navbar() {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-neon-green to-emerald-600 flex items-center justify-center">
             <TrendingUp className="text-white w-5 h-5" />
           </div>
-          <span className="text-xl font-display font-bold tracking-tight">
-            Market <span className="neon-text-green">Monitor</span>
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-display font-bold tracking-tight">
+              Market <span className="neon-text-green">Monitor</span>
+            </span>
+            <span className="text-[9px] font-black tracking-widest text-white bg-gradient-to-r from-neon-purple to-neon-cyan px-2 py-0.5 rounded-full uppercase shadow-[0_0_10px_rgba(176,0,255,0.4)]">
+              Pro
+            </span>
+          </div>
         </Link>
       </div>
       
