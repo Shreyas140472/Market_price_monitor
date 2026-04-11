@@ -120,9 +120,9 @@ export default function Landing() {
                   </div>
                   <div className="text-5xl font-display font-bold mt-2 flex items-center justify-between text-white group-hover:text-neon-cyan transition-all duration-500">
                     ₹{item.price}
-                    {item.price > item.prevPrice ? (
+                    {Number(item.price) > Number(item.prevPrice) ? (
                       <TrendingUp className="w-8 h-8 text-neon-red opacity-40 group-hover:opacity-100 transition-opacity" />
-                    ) : item.price < item.prevPrice ? (
+                    ) : Number(item.price) < Number(item.prevPrice) ? (
                       <TrendingDown className="w-8 h-8 text-neon-green opacity-40 group-hover:opacity-100 transition-opacity" />
                     ) : (
                       <TrendingUp className="w-8 h-8 text-neon-green opacity-40 group-hover:opacity-100 transition-opacity" />

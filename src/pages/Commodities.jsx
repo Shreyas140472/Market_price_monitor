@@ -143,13 +143,13 @@ export default function Commodities() {
                   <div className="text-3xl font-display font-bold text-white leading-none mt-1">₹{c.latestPrice}</div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-xs font-bold ${c.latestPrice > c.prevPrice ? 'text-neon-red' : 'text-neon-green'}`}>
-                    {c.latestPrice > c.prevPrice ? 'PRICE ▲' : c.latestPrice < c.prevPrice ? 'PRICE ▼' : 'STABLE'}
+                  <div className={`text-xs font-bold ${Number(c.latestPrice) > Number(c.prevPrice) ? 'text-neon-red' : 'text-neon-green'}`}>
+                    {Number(c.latestPrice) > Number(c.prevPrice) ? 'PRICE ▲' : Number(c.latestPrice) < Number(c.prevPrice) ? 'PRICE ▼' : 'STABLE'}
                   </div>
                   <div className="text-[10px] text-text-secondary font-mono flex items-center justify-end gap-1 mt-1">
-                    {c.latestPrice > c.prevPrice ? (
+                    {Number(c.latestPrice) > Number(c.prevPrice) ? (
                       <TrendingUp className="w-3 h-3 text-neon-red" />
-                    ) : c.latestPrice < c.prevPrice ? (
+                    ) : Number(c.latestPrice) < Number(c.prevPrice) ? (
                       <TrendingDown className="w-3 h-3 text-neon-green" />
                     ) : (
                       <TrendingUp className="w-3 h-3 text-neon-green" />
