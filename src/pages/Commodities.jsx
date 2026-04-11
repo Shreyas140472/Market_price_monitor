@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { LuFilter as Filter, LuSearch as Search, LuLeaf as Leaf, LuTrendingUp as TrendingUp } from 'react-icons/lu';
+import { LuFilter as Filter, LuSearch as Search, LuLeaf as Leaf, LuTrendingUp as TrendingUp, LuTrendingDown as TrendingDown } from 'react-icons/lu';
 import Skeleton from '../components/Skeleton';
 
 export default function Commodities() {
@@ -36,11 +36,18 @@ export default function Commodities() {
           if (p.price > uniqueComms[cId].max) uniqueComms[cId].max = p.price;
         });
 
-        const formatted = Object.values(uniqueComms).map(c => ({
-          ...c,
-          avgPrice: (c.history.reduce((a,b)=>a+b, 0) / c.history.length).toFixed(2),
-          count: c.history.length
-        }));
+        const formatted = Object.values(uniqueComms).map(c => {
+          const latestPrice = c.history[0];
+          const prevPrice = c.history.length > 1 ? c.history[1] : latestPrice;
+          
+          return {
+            ...c,
+            latestPrice,
+            prevPrice,
+            avgPrice: (c.history.reduce((a,b)=>a+b, 0) / c.history.length).toFixed(2),
+            count: c.history.length
+          };
+        });
 
         setCommodities(formatted);
       }
@@ -133,14 +140,21 @@ export default function Commodities() {
               <div className="relative z-10 pt-6 mt-6 border-t border-white/5 flex items-end justify-between">
                 <div>
                   <p className="text-[10px] text-text-secondary uppercase font-bold tracking-tighter">Current Market Value</p>
-                  <div className="text-3xl font-display font-bold text-white leading-none mt-1">₹{c.avgPrice}</div>
+                  <div className="text-3xl font-display font-bold text-white leading-none mt-1">₹{c.latestPrice}</div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-xs font-bold ${c.avgPrice > 100 ? 'text-neon-red' : 'text-neon-green'}`}>
-                    {c.avgPrice > 100 ? 'HIGH' : 'STABLE'}
+                  <div className={`text-xs font-bold ${c.latestPrice > c.prevPrice ? 'text-neon-red' : 'text-neon-green'}`}>
+                    {c.latestPrice > c.prevPrice ? 'PRICE ▲' : c.latestPrice < c.prevPrice ? 'PRICE ▼' : 'STABLE'}
                   </div>
-                  <div className="text-[10px] text-text-secondary font-mono flex items-center justify-end gap-1">
-                    <TrendingUp className="w-2 h-2" /> DATA_TRUST: 99%
+                  <div className="text-[10px] text-text-secondary font-mono flex items-center justify-end gap-1 mt-1">
+                    {c.latestPrice > c.prevPrice ? (
+                      <TrendingUp className="w-3 h-3 text-neon-red" />
+                    ) : c.latestPrice < c.prevPrice ? (
+                      <TrendingDown className="w-3 h-3 text-neon-green" />
+                    ) : (
+                      <TrendingUp className="w-3 h-3 text-neon-green" />
+                    )} 
+                    DATA_TRUST: 99%
                   </div>
                 </div>
               </div>

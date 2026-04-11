@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { LuArrowRight as ArrowRight, LuTrendingUp as TrendingUp, LuZap as Zap, LuGlobe as Globe } from 'react-icons/lu';
+import { LuArrowRight as ArrowRight, LuTrendingUp as TrendingUp, LuTrendingDown as TrendingDown, LuZap as Zap, LuGlobe as Globe } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import Skeleton from '../components/Skeleton';
 
@@ -13,15 +13,29 @@ export default function Landing() {
       const { data, error } = await supabase
         .from('prices')
         .select(`
-          id, price, date,
+          id, price, date, created_at,
+          commodity_id, market_id,
           commodities (name),
           markets (city)
         `)
         .order('created_at', { ascending: false })
-        .limit(4);
+        .limit(100);
 
       if (!error && data) {
-        setLatestPrices(data);
+        const unique = [];
+        const seen = new Set();
+        
+        for (const row of data) {
+          const key = `${row.commodity_id}-${row.market_id}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            const history = data.filter(r => r.commodity_id === row.commodity_id && r.market_id === row.market_id);
+            const prevPrice = history.length > 1 ? history[1].price : row.price;
+            unique.push({...row, prevPrice});
+            if (unique.length === 4) break;
+          }
+        }
+        setLatestPrices(unique);
       }
       setLoading(false);
     }
@@ -106,7 +120,13 @@ export default function Landing() {
                   </div>
                   <div className="text-5xl font-display font-bold mt-2 flex items-center justify-between text-white group-hover:text-neon-cyan transition-all duration-500">
                     ₹{item.price}
-                    <TrendingUp className="w-8 h-8 text-neon-green opacity-40 group-hover:opacity-100 transition-opacity" />
+                    {item.price > item.prevPrice ? (
+                      <TrendingUp className="w-8 h-8 text-neon-red opacity-40 group-hover:opacity-100 transition-opacity" />
+                    ) : item.price < item.prevPrice ? (
+                      <TrendingDown className="w-8 h-8 text-neon-green opacity-40 group-hover:opacity-100 transition-opacity" />
+                    ) : (
+                      <TrendingUp className="w-8 h-8 text-neon-green opacity-40 group-hover:opacity-100 transition-opacity" />
+                    )}
                   </div>
                   <div className="mt-8 pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-text-secondary font-mono tracking-tighter">
                     <span className="group-hover:text-neon-cyan transition-colors">NODE_SYNC_COMPLETE</span>
